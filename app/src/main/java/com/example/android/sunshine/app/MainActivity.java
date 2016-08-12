@@ -8,6 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -50,6 +54,9 @@ public class MainActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+        private ArrayList<String> weekData;
+        private ArrayAdapter<String> mForecastAdapter;
+
         public PlaceholderFragment() {
         }
 
@@ -57,7 +64,29 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+
+            mForecastAdapter = new ArrayAdapter<String>(
+                    getActivity(),
+                    R.layout.list_item_forecast,
+                    R.id.list_item_forecast_tv,
+                    createFakeData()
+            );
+
+            ListView weatherListView = (ListView) rootView.findViewById(R.id.listview_forecast);
+            weatherListView.setAdapter(mForecastAdapter);
+
             return rootView;
+        }
+
+        private ArrayList<String> createFakeData() {
+            weekData = new ArrayList<>();
+
+            for(int i = 0; i < 15; i++) {
+                weekData.add("Day " + (i+1) + " - Sunny 88/70");
+            }
+
+            return weekData;
         }
     }
 }
