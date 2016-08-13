@@ -1,10 +1,11 @@
-package com.example.android.sunshine.app;
+package com.example.android.sunshine.app.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.fragment.ForecastFragment;
 
 
