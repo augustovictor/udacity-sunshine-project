@@ -48,6 +48,12 @@ public class ForecastFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -62,20 +68,24 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh: {
-                SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getActivity());
-                String zipCode = sharedPreferences.getString(
-                        getString(R.string.pref_location_key),
-                        getString(R.string.pref_location_default)
-                );
-
-                FetchWeatherTask  fetchWeatherTask = new FetchWeatherTask();
-                fetchWeatherTask.execute(zipCode);
+                updateWeather();
                 return true;
             }
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void updateWeather() {
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String zipCode = sharedPreferences.getString(
+                getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default)
+        );
+
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        fetchWeatherTask.execute(zipCode);
     }
 
     @Override
@@ -88,7 +98,7 @@ public class ForecastFragment extends Fragment {
                 getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_tv,
-                createFakeData()
+                new ArrayList<String>()
         );
 
         ListView weatherListView = (ListView) rootView.findViewById(R.id.listview_forecast);
