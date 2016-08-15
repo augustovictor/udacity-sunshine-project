@@ -30,5 +30,7 @@
     <string name="pref_units_metric" translatable="false">metric</string>
 
     <string name="pref_units_imperial" translatable="false">imperial</string>
+    <string name="action_map">Map location</string>
+    <string name="action_share">Share</string>
 
 </resources>
