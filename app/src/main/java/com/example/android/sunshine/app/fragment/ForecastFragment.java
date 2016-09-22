@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,9 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.sunshine.app.R;
+import com.example.android.sunshine.app.activity.DetailActivity;
 import com.example.android.sunshine.app.adapters.ForecastAdapter;
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.utils.FetchWeatherTask;
@@ -107,6 +110,27 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         ListView weatherListView = (ListView) rootView.findViewById(R.id.listview_forecast);
         weatherListView.setAdapter(mForecastAdapter);
+
+        weatherListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // CursorAdapter returns a cursor at the correct position for getItem(), or null
+                // if it cannot seek to that position.
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+
+                if (cursor != null) {
+                    String locationSetting = Utility.getPreferredLocation(getActivity());
+                    Intent intent = new Intent(getActivity(), DetailActivity.class)
+                            .setData(
+                                    WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                                            locationSetting,
+                                            cursor.getLong(COL_WEATHER_DATE)
+                                    )
+                            );
+                    startActivity(intent);
+                }
+            }
+        });
 
 
         return rootView;
