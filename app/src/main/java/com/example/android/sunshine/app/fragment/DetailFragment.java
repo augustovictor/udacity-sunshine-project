@@ -87,7 +87,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         Bundle args = getArguments();
         if (args != null) {
-            mUri = args.getParcelable(DETAIL_URI);
+            mUri = args.getParcelable(DetailFragment.DETAIL_URI);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);

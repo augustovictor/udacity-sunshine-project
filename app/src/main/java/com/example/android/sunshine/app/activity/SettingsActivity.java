@@ -12,7 +12,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 
 import com.example.android.sunshine.app.R;
 
@@ -76,7 +75,6 @@ public class SettingsActivity extends PreferenceActivity
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Nullable
     @Override
     public Intent getParentActivityIntent() {
         return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
