@@ -226,6 +226,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void setmUseTodayLayout(boolean useTodayLayout) {
         mUseTodayLayout = useTodayLayout;
         if (mForecastAdapter != null) {
+            // We verify whether it's null because onCreate onCreate() on MainActivity is called before onCreateView();
             mForecastAdapter.setmUseTodayLayout(mUseTodayLayout);
         }
     }
