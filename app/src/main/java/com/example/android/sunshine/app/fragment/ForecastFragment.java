@@ -35,6 +35,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static int FORECAST_LOADER = 0;
 
+    private boolean mUseTodayLayout;
+
     private static final String[] FORECAST_COLUMNS = {
             // WeatherEntry columns
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
@@ -149,6 +151,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
+        mForecastAdapter.setmUseTodayLayout(mUseTodayLayout);
 
         return rootView;
     }
@@ -218,5 +221,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLocationChanged() {
         updateWeather();
         getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
+    }
+
+    public void setmUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setmUseTodayLayout(mUseTodayLayout);
+        }
     }
 }
