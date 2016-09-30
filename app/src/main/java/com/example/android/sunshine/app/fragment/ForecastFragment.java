@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ import android.widget.ListView;
 import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.adapters.ForecastAdapter;
 import com.example.android.sunshine.app.data.WeatherContract;
-import com.example.android.sunshine.app.utils.FetchWeatherTask;
+import com.example.android.sunshine.app.services.SunshineService;
 import com.example.android.sunshine.app.utils.Utility;
 
 /**
@@ -105,9 +106,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(getActivity());
-        String location = Utility.getPreferredLocation(getActivity());
-        fetchWeatherTask.execute(location);
+        Intent i = new Intent(getActivity(), SunshineService.class);
+        i.putExtra(SunshineService.LOCATION_QUERY_EXTRA, Utility.getPreferredLocation(getActivity()));
+        getActivity().startService(i);
     }
 
     @Override
