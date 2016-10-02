@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.fragment.DetailFragment;
 import com.example.android.sunshine.app.fragment.ForecastFragment;
+import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 import com.example.android.sunshine.app.utils.Utility;
 
 
@@ -55,6 +56,8 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
 
         ForecastFragment ff = ((ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast));
         ff.setmUseTodayLayout(!mTwoPane);
+
+        SunshineSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
