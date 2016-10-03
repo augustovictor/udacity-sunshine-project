@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +29,8 @@ import com.example.android.sunshine.app.utils.Utility;
  * A forecastFragment fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     private ForecastAdapter mForecastAdapter;
     private ListView mListView;
@@ -94,8 +98,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_refresh: {
-                updateWeather();
+//            case R.id.action_refresh: {
+//                updateWeather();
+//                return true;
+//            }
+
+            case R.id.action_map: {
+                openPreferredLocationInMap();
                 return true;
             }
 
@@ -226,6 +235,28 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if (mForecastAdapter != null) {
             // We verify whether it's null because onCreate onCreate() on MainActivity is called before onCreateView();
             mForecastAdapter.setmUseTodayLayout(mUseTodayLayout);
+        }
+    }
+
+    private void openPreferredLocationInMap() {
+        if (mForecastAdapter != null) {
+            Cursor c = mForecastAdapter.getCursor();
+
+            if(c != null) {
+                c.moveToPosition(0);
+                String posLat = c.getString(COL_COOD_LAT);
+                String posLong = c.getString(COL_COOD_LONG);
+                Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + ", no receiving apps installed!");
+                }
+            }
         }
     }
 }

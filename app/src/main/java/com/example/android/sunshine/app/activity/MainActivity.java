@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,8 +15,6 @@ import com.example.android.sunshine.app.utils.Utility;
 
 
 public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback{
-
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     // Used to tag a fragment in a fragmentManager so we can find it easily
     // Fragments can only be tagged in fragment transitions. Thus the same
@@ -100,32 +97,10 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
                 return true;
             }
 
-            case R.id.action_map: {
-                openPreferredLocationInMap();
-                return true;
-            }
-
             default:
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-
-    private void openPreferredLocationInMap() {
-        String location = Utility.getPreferredLocation(this);
-
-        Uri geolocation = Uri.parse("geo:0,0?").buildUpon()
-                .appendQueryParameter("q", location)
-                .build();
-
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(geolocation);
-
-        if (i.resolveActivity(getPackageManager()) != null) {
-            startActivity(i);
-        } else {
-            Log.d(LOG_TAG, "Couldn't call " + location + ", no receiving apps installed!");
-        }
     }
 
     @Override
